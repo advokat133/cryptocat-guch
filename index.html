@@ -1,344 +1,228 @@
-
 <!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#211344">
+<meta name="theme-color" content="#170d31">
 <title>CryptoCat — Гучи</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
+:root{--gold:#ffe18a;--violet:#b99aff;--mint:#75e5c5;--muted:#d6c9f0;--panel:rgba(255,255,255,.085);--line:rgba(255,255,255,.14)}
 *{box-sizing:border-box}
-html{min-height:100%;background:#17102e}
-body{
-margin:0;min-height:100vh;min-height:100dvh;
-padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
-font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-color:#fff;background:linear-gradient(160deg,#32165e,#17102e 65%,#0d0b1b);
-overscroll-behavior-y:contain
-}
-.app{width:100%;max-width:560px;min-height:calc(100dvh - 20px);margin:0 auto}
-header{text-align:center;padding:12px 8px 16px}
-h1{margin:0;font-size:clamp(25px,7vw,36px)}
-.sub{color:#d7c9f4;margin-top:5px;font-size:14px}
-.card{background:#ffffff12;border:1px solid #ffffff25;border-radius:22px;padding:16px;margin:12px 0;box-shadow:0 12px 35px #0002}
-.wallet{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.coins{font-size:24px;font-weight:800;color:#ffe27a}
-.pet{text-align:center;padding:18px 12px}
-.cat{font-size:clamp(76px,20vw,100px);line-height:1.15}
-.pet h2{margin:8px 0 3px;font-size:25px}
-.level{color:#ddc9ff;font-size:14px}
-.stats{display:grid;gap:13px;margin-top:17px;text-align:left}
-.statline{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:#eee5ff}
-.bar{height:11px;background:#ffffff20;border-radius:20px;overflow:hidden}
-.fill{height:100%;width:70%;border-radius:20px;background:linear-gradient(90deg,#71e2c1,#b8ff8a);transition:width .25s}
-.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-button{border:0;border-radius:15px;padding:14px 10px;font-size:16px;font-weight:750;color:#24143c;background:#f1e8ff;cursor:pointer;min-height:54px;touch-action:manipulation}
+html{min-height:100%;background:#10091f}
+body{margin:0;min-height:100vh;min-height:100dvh;padding:max(9px,env(safe-area-inset-top)) max(9px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(9px,env(safe-area-inset-left));font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#fff;background:radial-gradient(ellipse at 50% -10%,#63349b 0%,transparent 45%),linear-gradient(160deg,#28134b,#17102e 58%,#0b0917);overscroll-behavior-y:contain}
+.app{width:100%;max-width:560px;margin:0 auto}
+header{text-align:center;padding:13px 8px 15px}
+.brand{display:flex;align-items:center;justify-content:center;gap:8px;font-size:clamp(25px,7vw,35px);font-weight:900;letter-spacing:-.8px;text-shadow:0 4px 20px #0005}
+.brand-mark{font-size:27px;filter:drop-shadow(0 0 10px #ffcf70)}
+.sub{color:var(--muted);margin-top:5px;font-size:13px}
+.top-tags{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:11px}
+.tag{border:1px solid var(--line);background:#ffffff12;color:#e9ddff;border-radius:30px;padding:5px 10px;font-size:11px;font-weight:750;letter-spacing:.35px}
+.card{position:relative;background:linear-gradient(145deg,rgba(255,255,255,.105),rgba(255,255,255,.045));border:1px solid var(--line);border-radius:23px;padding:16px;margin:12px 0;box-shadow:0 15px 38px #0003,inset 0 1px #ffffff0a;overflow:hidden}
+.wallet{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wallet-item{padding:5px 4px}
+.wallet-item:last-child{text-align:right}
+.eyebrow{font-size:11px;letter-spacing:1px;color:#cdbde9;font-weight:800}
+.coins{font-size:27px;font-weight:900;color:var(--gold);margin-top:2px;font-variant-numeric:tabular-nums}
+.xp-value{font-size:23px;font-weight:850;margin-top:3px}
+.wallet-caption{font-size:11px;color:#b7a7d2;margin-top:1px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.section-title{font-size:17px;font-weight:900;letter-spacing:.2px}
+.live{display:inline-flex;align-items:center;gap:5px;color:#a8f4d9;background:#62d9ae18;border:1px solid #75e5c544;border-radius:30px;padding:5px 9px;font-size:10px;font-weight:850}
+.live-dot{width:6px;height:6px;background:#70efbd;border-radius:50%;box-shadow:0 0 9px #70efbd}
+.mining{text-align:center;background:radial-gradient(circle at 50% 0%,#8052b833,transparent 58%),linear-gradient(145deg,#ffffff13,#ffffff06)}
+.mine-orb{width:112px;height:112px;margin:5px auto 10px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(from -90deg,#ffe18a 0deg,#a87aff 180deg,#75e5c5 280deg,#ffe18a 360deg);padding:3px;box-shadow:0 0 28px #a87aff33}
+.mine-orb-inner{width:100%;height:100%;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 20%,#49316c,#211438 75%)}
+.pickaxe{font-size:31px;line-height:1.1}
+.orb-label{font-size:10px;color:#d6c9f0;font-weight:800;letter-spacing:1px;margin-top:4px}
+.mine-amount{font-size:25px;font-weight:950;color:var(--gold);margin:2px 0 8px;font-variant-numeric:tabular-nums}
+.mine-rate{font-size:12px;color:var(--muted);line-height:1.5}
+.progress-track{height:9px;border-radius:20px;background:#ffffff1c;overflow:hidden;margin:12px 2px 8px}
+.progress-fill{height:100%;width:0%;border-radius:20px;background:linear-gradient(90deg,#8a72ff,#75e5c5,#ffe18a);transition:width .35s}
+.mine-timer{font-size:12px;color:#d8cbed;line-height:1.5}
+.mine-button{width:100%;min-height:61px;border:0;border-radius:17px;margin-top:14px;background:linear-gradient(110deg,#ffe99a,#ffb45d 55%,#ff9a55);color:#2b1745;font-size:19px;font-weight:950;box-shadow:0 7px 22px #ffb45d30;transition:transform .15s,filter .15s}
+.mine-button:not(:disabled):active{transform:scale(.98);filter:brightness(1.06)}
+button{border:0;border-radius:15px;padding:13px 9px;font-size:15px;font-weight:800;color:#26163d;background:#f1e8ff;cursor:pointer;min-height:53px;touch-action:manipulation;transition:opacity .15s,transform .15s}
 button:active{transform:scale(.98)}
-button.primary{background:linear-gradient(135deg,#ffe58a,#ffb85c)}
-button.secondary{background:#d7c2ff}
-button:disabled{opacity:.45;cursor:not-allowed}
-.message{min-height:24px;text-align:center;color:#ffe7a5;font-weight:650;margin:12px 0 0}
-.note{font-size:12px;line-height:1.45;color:#c9bddf;text-align:center;margin:18px 8px 0}
-.daily{width:100%;margin-top:10px;background:linear-gradient(135deg,#9a72ff,#6f50d7);color:white}
-.footer{text-align:center;color:#a99abd;font-size:12px;margin:18px 0 8px}
-.mining{text-align:center}
-.mine-title{font-size:19px;font-weight:800;color:#ffe58a}
-.mine-rate{font-size:14px;color:#d7c9f4;margin:7px 0}
-.mine-amount{font-size:30px;font-weight:850;color:#ffe27a;margin:10px 0}
-.mine-button{width:100%;min-height:66px;font-size:19px;color:#24143c;background:linear-gradient(135deg,#ffe58a,#ff9e48);margin-top:10px}
-.mine-timer{font-size:13px;color:#d7c9f4;margin-top:10px}
-@media(max-height:760px){
-header{padding:6px 6px 10px}
-h1{font-size:clamp(23px,6vw,30px)}
-.card{padding:12px;margin:9px 0}
-.pet{padding:12px 10px}
-.cat{font-size:72px}
-.stats{gap:9px;margin-top:11px}
-.bar{height:9px}
-button{padding:10px 8px;min-height:48px;font-size:15px}
-.mine-button{min-height:56px}
-}
-@media(max-width:360px){
-.card{padding:11px}
-.actions{gap:7px}
-button{font-size:14px;padding:10px 6px}
-}
+button:disabled{opacity:.42;cursor:not-allowed;box-shadow:none}
+.mine-button:disabled{background:linear-gradient(110deg,#b4a6c8,#81718f);color:#38294b}
+.pet{text-align:center;padding:17px 13px}
+.pet-scene{position:relative;width:142px;height:132px;margin:0 auto 2px;display:grid;place-items:center}
+.pet-glow{position:absolute;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,#ffcf7a3d,transparent 70%);filter:blur(5px)}
+.cat{position:relative;font-size:91px;line-height:1;filter:drop-shadow(0 9px 10px #0005);animation:floaty 3.4s ease-in-out infinite}
+.spark{position:absolute;color:#ffe18a;font-size:17px;animation:twinkle 2s ease-in-out infinite}
+.spark.one{top:16px;left:13px}.spark.two{right:12px;top:30px;animation-delay:.8s}.spark.three{right:19px;bottom:14px;font-size:12px;animation-delay:1.3s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes twinkle{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.pet h2{margin:5px 0 3px;font-size:25px}
+.level{color:#ddc9ff;font-size:13px}
+.level-pill{display:inline-block;margin-left:5px;padding:3px 8px;border-radius:20px;background:#a77aff24;color:#e1ccff;font-size:11px;font-weight:850}
+.stats{display:grid;gap:13px;margin-top:18px;text-align:left}
+.statline{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:6px;color:#eee5ff}
+.statline b{font-variant-numeric:tabular-nums}
+.bar{height:10px;background:#ffffff20;border-radius:20px;overflow:hidden}
+.fill{height:100%;width:70%;border-radius:20px;background:linear-gradient(90deg,#71e2c1,#b8ff8a);transition:width .3s}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.primary{background:linear-gradient(135deg,#ffe58a,#ffb85c)}
+.secondary{background:#d7c2ff}
+.daily{grid-column:1/-1;background:linear-gradient(135deg,#9a72ff,#6f50d7);color:#fff}
+.message{min-height:24px;text-align:center;color:#ffe7a5;font-weight:750;margin:13px 0 0;font-size:13px;line-height:1.4}
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mini-stat{background:#ffffff0b;border:1px solid #ffffff12;border-radius:15px;padding:10px 6px;text-align:center}
+.mini-icon{font-size:20px}
+.mini-label{font-size:10px;color:#cbbde2;margin-top:4px}
+.mini-value{font-size:12px;font-weight:850;color:#fff;margin-top:2px}
+.note{font-size:11px;line-height:1.5;color:#c9bddf;text-align:center;margin:17px 8px 0}
+.footer{text-align:center;color:#a99abd;font-size:11px;margin:15px 0 8px}
+@media(max-height:760px){header{padding:7px 6px 9px}.card{padding:12px;margin:9px 0}.pet{padding:12px 10px}.pet-scene{height:108px}.cat{font-size:76px}.stats{gap:9px;margin-top:12px}.bar{height:9px}button{padding:10px 8px;min-height:48px}.mine-button{min-height:54px}}
+@media(max-width:360px){.card{padding:11px}.actions{gap:7px}.brand{font-size:24px}.mine-orb{width:98px;height:98px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <main class="app">
 <header>
-<h1>🐾 CryptoCat — Гучи</h1>
-<div class="sub">Заботься о котике и собирай виртуальные монеты</div>
+  <div class="brand"><span class="brand-mark">🐾</span><span>CryptoCat — Гучи</span></div>
+  <div class="sub">Заботься о котике · добывай монеты · развивайся</div>
+  <div class="top-tags"><span class="tag">🌙 MINI APP</span><span class="tag">⛏️ CAT MINER</span><span class="tag">💎 УРОВНИ И ОПЫТ</span></div>
 </header>
 
 <section class="card wallet">
-<div>
-<div style="font-size:13px;color:#d7c9f4">ТВОЙ БАЛАНС</div>
-<div class="coins">🪙 <span id="coins">...</span></div>
-</div>
-<div style="text-align:right">
-<div style="font-size:13px;color:#d7c9f4">ОПЫТ</div>
-<strong><span id="xp">...</span> XP</strong>
-</div>
+  <div class="wallet-item"><div class="eyebrow">ТВОЙ БАЛАНС</div><div class="coins">🪙 <span id="coins">...</span></div><div class="wallet-caption">виртуальные монеты</div></div>
+  <div class="wallet-item"><div class="eyebrow">ОПЫТ</div><div class="xp-value"><span id="xp">...</span> XP</div><div class="wallet-caption">Уровень <span id="levelSmall">1</span></div></div>
 </section>
 
 <section class="card mining">
-<div class="mine-title">⛏️ МАЙНИНГ ГУЧИ</div>
-<div class="mine-rate">Автоматически: +1 монета каждые 10 минут</div>
-<div class="mine-amount">🪙 <span id="passiveEarned">0</span></div>
-<div class="mine-timer" id="passiveTimer">Загрузка майнинга...</div>
-<button class="mine-button" id="mine" disabled>⚡ МАЙНИТЬ · +1</button>
-<div class="mine-timer" id="activeTimer">Активный майнинг: загрузка...</div>
+  <div class="section-head"><div class="section-title">⛏️ МАЙНИНГ ГУЧИ</div><span class="live"><i class="live-dot"></i> СИСТЕМА АКТИВНА</span></div>
+  <div class="mine-orb"><div class="mine-orb-inner"><div class="pickaxe">⛏️</div><div class="orb-label">MINING</div></div></div>
+  <div class="mine-amount">🪙 <span id="passiveEarned">0</span></div>
+  <div class="mine-rate">Пассивная добыча: +1 монета каждые 10 минут</div>
+  <div class="progress-track"><div class="progress-fill" id="passiveProgress"></div></div>
+  <div class="mine-timer" id="passiveTimer">Загрузка майнинга...</div>
+  <button class="mine-button" id="mine" disabled>⚡ МАЙНИТЬ · +1</button>
+  <div class="mine-timer" id="activeTimer">Активный майнинг: загрузка...</div>
 </section>
 
 <section class="card pet">
-<div class="cat" id="cat">🐱</div>
-<h2>Гучи</h2>
-<div class="level">Уровень <span id="level">1</span> · лучший друг 🧡</div>
-<div class="stats">
-<div>
-<div class="statline"><span>🍗 Сытость</span><b id="hungerText">70%</b></div>
-<div class="bar"><div class="fill" id="hungerBar"></div></div>
-</div>
-<div>
-<div class="statline"><span>⚡ Энергия</span><b id="energyText">70%</b></div>
-<div class="bar"><div class="fill" id="energyBar"></div></div>
-</div>
-<div>
-<div class="statline"><span>💖 Счастье</span><b id="happyText">70%</b></div>
-<div class="bar"><div class="fill" id="happyBar"></div></div>
-</div>
-</div>
-<div class="message" id="message" aria-live="polite">Загружаем Гучи...</div>
+  <div class="pet-scene"><div class="pet-glow"></div><span class="spark one">✦</span><span class="spark two">✧</span><span class="spark three">✦</span><div class="cat" id="cat">🐱</div></div>
+  <h2>Гучи</h2>
+  <div class="level">Твой лучший друг <span class="level-pill">УРОВЕНЬ <span id="level">1</span></span> 🧡</div>
+  <div class="stats">
+    <div><div class="statline"><span>🍗 Сытость</span><b id="hungerText">70%</b></div><div class="bar"><div class="fill" id="hungerBar"></div></div></div>
+    <div><div class="statline"><span>⚡ Энергия</span><b id="energyText">70%</b></div><div class="bar"><div class="fill" id="energyBar"></div></div></div>
+    <div><div class="statline"><span>💖 Счастье</span><b id="happyText">70%</b></div><div class="bar"><div class="fill" id="happyBar"></div></div></div>
+  </div>
+  <div class="message" id="message" aria-live="polite">Загружаем Гучи...</div>
 </section>
 
 <section class="card">
-<div class="actions">
-<button class="primary" id="feed" disabled>🍗 Покормить · 10</button>
-<button class="secondary" id="play" disabled>🎾 Играть · +5</button>
-<button id="sleep" disabled>😴 Спать</button>
-<button id="bonus" class="daily" disabled>🎁 Ежедневный бонус · +25</button>
-</div>
+  <div class="section-head"><div class="section-title">🐾 УХОД ЗА ГУЧИ</div><span class="tag">ДЕЙСТВИЯ</span></div>
+  <div class="actions">
+    <button class="primary" id="feed" disabled>🍗 Покормить · 10</button>
+    <button class="secondary" id="play" disabled>🎾 Играть · +5</button>
+    <button id="sleep" disabled>😴 Спать</button>
+    <button class="daily" id="bonus" disabled>🎁 Ежедневный бонус · +25</button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="section-head"><div class="section-title">📊 ТВОЙ ПРОГРЕСС</div><span class="tag">LIVE</span></div>
+  <div class="mini-grid">
+    <div class="mini-stat"><div class="mini-icon">🪙</div><div class="mini-label">БАЛАНС</div><div class="mini-value" id="miniCoins">...</div></div>
+    <div class="mini-stat"><div class="mini-icon">⭐</div><div class="mini-label">ОПЫТ</div><div class="mini-value" id="miniXp">...</div></div>
+    <div class="mini-stat"><div class="mini-icon">🏆</div><div class="mini-label">УРОВЕНЬ</div><div class="mini-value" id="miniLevel">1</div></div>
+  </div>
 </section>
 
 <p class="note">Монеты — виртуальные игровые очки. Это не криптовалюта, они не имеют денежной стоимости и не выводятся.</p>
 <div class="footer">CryptoCat — Гучи · Прогресс хранится на сервере</div>
 </main>
-
 <script>
 (() => {
 "use strict";
-
 const API = "https://cryptocat-api.zmvsv97hfm.workers.dev";
 const tg = window.Telegram?.WebApp;
-
 if (tg) {
-  tg.ready();
-  tg.expand();
-
+  tg.ready(); tg.expand();
   if (typeof tg.requestFullscreen === "function") {
-    const fullscreen = () => {
-      try {
-        const result = tg.requestFullscreen();
-        if (result?.catch) result.catch(() => {});
-      } catch (_) {}
-    };
-    fullscreen();
-    document.addEventListener("pointerdown", fullscreen, {once:true});
+    const fullscreen = () => { try { const r = tg.requestFullscreen(); if (r?.catch) r.catch(() => {}); } catch (_) {} };
+    fullscreen(); document.addEventListener("pointerdown", fullscreen, {once:true});
   }
 }
-
 const $ = id => document.getElementById(id);
-
-let player = null;
-let busy = false;
-let lastServerSync = 0;
-let syncBusy = false;
-
-const ACTIVE_COOLDOWN = 30000;
-const PASSIVE_INTERVAL = 600000;
-const MAX_PASSIVE_TIME = 86400000;
-
-function say(message) {
-  $("message").textContent = message;
-}
-
-function todayUTC() {
-  return new Date().toISOString().slice(0,10);
-}
-
-async function api(path, data = {}) {
+let player = null, busy = false, lastServerSync = 0, syncBusy = false;
+const ACTIVE_COOLDOWN = 30000, PASSIVE_INTERVAL = 600000, MAX_PASSIVE_TIME = 86400000;
+function say(message){ $("message").textContent = message; }
+function todayUTC(){ return new Date().toISOString().slice(0,10); }
+async function api(path,data={}){
   const initData = tg?.initData;
-
-  if (!initData) {
-    throw new Error("Открой игру через Telegram-бота.");
-  }
-
-  const response = await fetch(API + path, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({initData,...data})
-  });
-
+  if(!initData) throw new Error("Открой игру через Telegram-бота.");
+  const response = await fetch(API+path,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({initData,...data})});
   const result = await response.json();
-
-  if (!response.ok || !result.ok) {
-    const error = new Error(result.error || "Ошибка сервера");
-    error.status = response.status;
-    error.retryAfter = result.retry_after;
-    throw error;
-  }
-
+  if(!response.ok || !result.ok){const error=new Error(result.error||"Ошибка сервера");error.status=response.status;throw error;}
   return result;
 }
-
-function render(p) {
-  player = p;
-
-  $("coins").textContent = p.coins;
-  $("xp").textContent = p.xp;
-  $("level").textContent = p.level;
-
-  const stats = [
-    ["hunger",p.hunger],
-    ["energy",p.energy],
-    ["happy",p.happiness]
-  ];
-
-  stats.forEach(([name,value]) => {
-    $(name+"Text").textContent = value+"%";
-    $(name+"Bar").style.width = value+"%";
-  });
-
-  $("cat").textContent =
-    p.hunger < 20 ? "🙀" :
-    p.happiness < 25 ? "😿" :
-    p.energy < 20 ? "😴" : "🐱";
-
-  $("feed").disabled = busy || p.coins < 10 || p.hunger >= 100;
-  $("play").disabled = busy || p.energy < 15;
-  $("sleep").disabled = busy;
-
-  const bonusTaken = p.last_daily_bonus === todayUTC();
-  $("bonus").disabled = busy || bonusTaken;
-  $("bonus").textContent = bonusTaken
-    ? "✅ Бонус уже получен"
-    : "🎁 Ежедневный бонус · +25";
-
+function render(p){
+  player=p;
+  $("coins").textContent=p.coins; $("xp").textContent=p.xp; $("level").textContent=p.level;
+  $("levelSmall").textContent=p.level; $("miniCoins").textContent=p.coins; $("miniXp").textContent=p.xp; $("miniLevel").textContent=p.level;
+  [["hunger",p.hunger],["energy",p.energy],["happy",p.happiness]].forEach(([n,v])=>{$(n+"Text").textContent=v+"%";$(n+"Bar").style.width=v+"%";});
+  $("cat").textContent=p.hunger<20?"🙀":p.happiness<25?"😿":p.energy<20?"😴":"🐱";
+  $("feed").disabled=busy||p.coins<10||p.hunger>=100;
+  $("play").disabled=busy||p.energy<15; $("sleep").disabled=busy;
+  const bonusTaken=p.last_daily_bonus===todayUTC();
+  $("bonus").disabled=busy||bonusTaken;
+  $("bonus").textContent=bonusTaken?"✅ Бонус уже получен":"🎁 Ежедневный бонус · +25";
   updateMiningDisplay();
 }
-
-function updateMiningDisplay() {
-  if (!player) return;
-
-  const now = Date.now();
-  const lastPassive = player.mining_last_at
-    ? Date.parse(player.mining_last_at)
-    : now;
-
-  if (Number.isFinite(lastPassive)) {
-    const elapsed = Math.max(0,Math.min(now-lastPassive,MAX_PASSIVE_TIME));
-    const earned = Math.floor(elapsed/PASSIVE_INTERVAL);
-    const remaining = PASSIVE_INTERVAL-(elapsed%PASSIVE_INTERVAL);
-
-    $("passiveEarned").textContent = earned;
-
-    const minutes = Math.floor(remaining/60000);
-    const seconds = Math.floor((remaining%60000)/1000);
-
-    $("passiveTimer").textContent =
-      "Следующая автоматическая монета через "+minutes+" мин "+seconds+" сек";
+function updateMiningDisplay(){
+  if(!player)return;
+  const now=Date.now();
+  const lastPassive=player.mining_last_at?Date.parse(player.mining_last_at):now;
+  if(Number.isFinite(lastPassive)){
+    const elapsed=Math.max(0,Math.min(now-lastPassive,MAX_PASSIVE_TIME));
+    const earned=Math.floor(elapsed/PASSIVE_INTERVAL);
+    const progress=(elapsed%PASSIVE_INTERVAL)/PASSIVE_INTERVAL*100;
+    const remaining=PASSIVE_INTERVAL-(elapsed%PASSIVE_INTERVAL);
+    $("passiveEarned").textContent=earned;
+    $("passiveProgress").style.width=progress+"%";
+    $("passiveTimer").textContent="Следующая автоматическая монета через "+Math.floor(remaining/60000)+" мин "+Math.floor((remaining%60000)/1000)+" сек";
   }
-
-  const lastActive = player.active_last_at
-    ? Date.parse(player.active_last_at)
-    : 0;
-
-  const remainingActive = Math.max(0,ACTIVE_COOLDOWN-(now-lastActive));
-
-  if (remainingActive > 0) {
-    $("mine").disabled = busy || remainingActive > 0;
-    $("activeTimer").textContent =
-      "Следующий активный майнинг через "+Math.ceil(remainingActive/1000)+" сек";
-  } else {
-    $("mine").disabled = busy || remainingActive > 0;
-    $("activeTimer").textContent = "Можно майнить сейчас! ⚡";
+  const lastActive=player.active_last_at?Date.parse(player.active_last_at):0;
+  const remainingActive=Math.max(0,ACTIVE_COOLDOWN-(now-lastActive));
+  $("mine").disabled=busy||remainingActive>0;
+  $("activeTimer").textContent=remainingActive>0?"Следующий активный майнинг через "+Math.ceil(remainingActive/1000)+" сек":"Можно майнить сейчас! ⚡";
+}
+async function loadPlayer(showMessage=true){
+  if(syncBusy)return; syncBusy=true;
+  try{
+    if(showMessage)say("Загружаем профиль...");
+    const result=await api("/api/player"); render(result.player); lastServerSync=Date.now();
+    if(showMessage)say(result.mining_earned>0?"Автоматический майнинг: +"+result.mining_earned+" монет! ⛏️":"Гучи рад тебя видеть! 🧡");
+  }catch(error){if(showMessage)say(error.message);}
+  finally{syncBusy=false;}
+}
+async function action(name){
+  if(busy||!player)return;
+  if(name==="mine"){
+    const last=player.active_last_at?Date.parse(player.active_last_at):0;
+    if(Date.now()-last<ACTIVE_COOLDOWN){updateMiningDisplay();return;}
   }
+  busy=true; render(player); say("Обрабатываем действие...");
+  try{
+    const result=await api("/api/action",{action:name}); render(result.player); lastServerSync=Date.now(); say(result.message||"Готово!");
+  }catch(error){say(error.status===429&&name==="mine"?"Подожди немного перед следующим майнингом ⚡":error.message);}
+  finally{busy=false;if(player)render(player);updateMiningDisplay();}
 }
-
-async function loadPlayer(showMessage = true) {
-  if (syncBusy) return;
-  syncBusy = true;
-
-  try {
-    if (showMessage) say("Загружаем профиль...");
-    const result = await api("/api/player");
-    render(result.player);
-    lastServerSync = Date.now();
-
-    if (showMessage) {
-      say(result.mining_earned > 0
-        ? "Автоматический майнинг: +"+result.mining_earned+" монет! ⛏️"
-        : "Гучи рад тебя видеть! 🧡");
-    }
-  } catch (error) {
-    if (showMessage) say(error.message);
-  } finally {
-    syncBusy = false;
-  }
-}
-
-async function action(name) {
-  if (busy || !player) return;
-
-  busy = true;
-  render(player);
-  say("Обрабатываем действие...");
-
-  try {
-    const result = await api("/api/action",{action:name});
-    render(result.player);
-    lastServerSync = Date.now();
-    say(result.message || "Готово!");
-  } catch (error) {
-    if (error.status === 429 && name === "mine") {
-      say("Подожди немного перед следующим майнингом ⚡");
-    } else {
-      say(error.message);
-    }
-  } finally {
-    busy = false;
-    if (player) render(player);
-    updateMiningDisplay();
-  }
-}
-
-$("mine").addEventListener("click",() => action("mine"));
-$("feed").addEventListener("click",() => action("feed"));
-$("play").addEventListener("click",() => action("play"));
-$("sleep").addEventListener("click",() => action("sleep"));
-$("bonus").addEventListener("click",() => action("bonus"));
-
-if ("scrollRestoration" in history) {
-  history.scrollRestoration = "manual";
-}
-
-window.addEventListener("pageshow",() => window.scrollTo(0,0),{once:true});
-
+$("mine").addEventListener("click",()=>action("mine"));
+$("feed").addEventListener("click",()=>action("feed"));
+$("play").addEventListener("click",()=>action("play"));
+$("sleep").addEventListener("click",()=>action("sleep"));
+$("bonus").addEventListener("click",()=>action("bonus"));
+if("scrollRestoration" in history)history.scrollRestoration="manual";
+window.addEventListener("pageshow",()=>window.scrollTo(0,0),{once:true});
 loadPlayer();
-
-setInterval(() => {
-  updateMiningDisplay();
-
-  // Синхронизируемся с сервером раз в минуту,
-  // чтобы начислять автоматические монеты.
-  if (player && !busy && Date.now()-lastServerSync >= 60000) {
-    loadPlayer(false);
-  }
-},1000);
-
+setInterval(()=>{updateMiningDisplay();if(player&&!busy&&Date.now()-lastServerSync>=60000)loadPlayer(false);},1000);
 })();
 </script>
 </body>
