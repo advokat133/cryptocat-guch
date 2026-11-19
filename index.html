@@ -2,245 +2,343 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <meta name="theme-color" content="#211344">
-  <title>CryptoCat — Гучи</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <style>
-    * { box-sizing: border-box; }
-    html { min-height: 100%; background: #17102e; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding: max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-      color: #fff;
-      background: linear-gradient(160deg,#32165e,#17102e 65%,#0d0b1b);
-      overscroll-behavior-y: contain;
-    }
-    .app { width:100%;max-width:560px;min-height:calc(100dvh - 20px);margin:0 auto; }
-    header { text-align:center;padding:12px 8px 16px; }
-    h1 { margin:0;font-size:clamp(25px,7vw,36px); }
-    .sub { color:#d7c9f4;margin-top:5px;font-size:14px; }
-    .card { background:#ffffff12;border:1px solid #ffffff25;border-radius:22px;padding:16px;margin:12px 0;box-shadow:0 12px 35px #0002; }
-    .wallet { display:flex;justify-content:space-between;align-items:center;gap:12px; }
-    .coins { font-size:24px;font-weight:800;color:#ffe27a; }
-    .pet { text-align:center;padding:18px 12px; }
-    .cat { font-size:clamp(76px,20vw,100px);line-height:1.15; }
-    .pet h2 { margin:8px 0 3px;font-size:25px; }
-    .level { color:#ddc9ff;font-size:14px; }
-    .stats { display:grid;gap:13px;margin-top:17px;text-align:left; }
-    .statline { display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:#eee5ff; }
-    .bar { height:11px;background:#ffffff20;border-radius:20px;overflow:hidden; }
-    .fill { height:100%;width:70%;border-radius:20px;background:linear-gradient(90deg,#71e2c1,#b8ff8a);transition:width .25s; }
-    .actions { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px; }
-    button { border:0;border-radius:15px;padding:14px 10px;font-size:16px;font-weight:750;color:#24143c;background:#f1e8ff;cursor:pointer;min-height:58px;touch-action:manipulation; }
-    button:active { transform:scale(.98); }
-    button.primary { background:linear-gradient(135deg,#ffe58a,#ffb85c); }
-    button.secondary { background:#d7c2ff; }
-    button:disabled { opacity:.45;cursor:not-allowed; }
-    .message { min-height:24px;text-align:center;color:#ffe7a5;font-weight:650;margin:12px 0 0; }
-    .note { font-size:12px;line-height:1.45;color:#c9bddf;text-align:center;margin:18px 8px 0; }
-    .daily { width:100%;margin-top:10px;background:linear-gradient(135deg,#9a72ff,#6f50d7);color:white; }
-    .footer { text-align:center;color:#a99abd;font-size:12px;margin:18px 0 8px; }
-    @media(max-height:760px) {
-      header { padding:6px 6px 10px; }
-      h1 { font-size:clamp(23px,6vw,30px); }
-      .card { padding:12px;margin:9px 0; }
-      .pet { padding:12px 10px; }
-      .cat { font-size:72px; }
-      .stats { gap:9px;margin-top:11px; }
-      .bar { height:9px; }
-      button { padding:10px 8px;min-height:50px;font-size:15px; }
-    }
-    @media(max-width:360px) {
-      .card { padding:11px; }
-      .actions { gap:7px; }
-      button { font-size:14px;padding:10px 6px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#211344">
+<title>CryptoCat — Гучи</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box}
+html{min-height:100%;background:#17102e}
+body{
+margin:0;min-height:100vh;min-height:100dvh;
+padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+color:#fff;background:linear-gradient(160deg,#32165e,#17102e 65%,#0d0b1b);
+overscroll-behavior-y:contain
+}
+.app{width:100%;max-width:560px;min-height:calc(100dvh - 20px);margin:0 auto}
+header{text-align:center;padding:12px 8px 16px}
+h1{margin:0;font-size:clamp(25px,7vw,36px)}
+.sub{color:#d7c9f4;margin-top:5px;font-size:14px}
+.card{background:#ffffff12;border:1px solid #ffffff25;border-radius:22px;padding:16px;margin:12px 0;box-shadow:0 12px 35px #0002}
+.wallet{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.coins{font-size:24px;font-weight:800;color:#ffe27a}
+.pet{text-align:center;padding:18px 12px}
+.cat{font-size:clamp(76px,20vw,100px);line-height:1.15}
+.pet h2{margin:8px 0 3px;font-size:25px}
+.level{color:#ddc9ff;font-size:14px}
+.stats{display:grid;gap:13px;margin-top:17px;text-align:left}
+.statline{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:#eee5ff}
+.bar{height:11px;background:#ffffff20;border-radius:20px;overflow:hidden}
+.fill{height:100%;width:70%;border-radius:20px;background:linear-gradient(90deg,#71e2c1,#b8ff8a);transition:width .25s}
+.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+button{border:0;border-radius:15px;padding:14px 10px;font-size:16px;font-weight:750;color:#24143c;background:#f1e8ff;cursor:pointer;min-height:54px;touch-action:manipulation}
+button:active{transform:scale(.98)}
+button.primary{background:linear-gradient(135deg,#ffe58a,#ffb85c)}
+button.secondary{background:#d7c2ff}
+button:disabled{opacity:.45;cursor:not-allowed}
+.message{min-height:24px;text-align:center;color:#ffe7a5;font-weight:650;margin:12px 0 0}
+.note{font-size:12px;line-height:1.45;color:#c9bddf;text-align:center;margin:18px 8px 0}
+.daily{width:100%;margin-top:10px;background:linear-gradient(135deg,#9a72ff,#6f50d7);color:white}
+.footer{text-align:center;color:#a99abd;font-size:12px;margin:18px 0 8px}
+.mining{text-align:center}
+.mine-title{font-size:19px;font-weight:800;color:#ffe58a}
+.mine-rate{font-size:14px;color:#d7c9f4;margin:7px 0}
+.mine-amount{font-size:30px;font-weight:850;color:#ffe27a;margin:10px 0}
+.mine-button{width:100%;min-height:66px;font-size:19px;color:#24143c;background:linear-gradient(135deg,#ffe58a,#ff9e48);margin-top:10px}
+.mine-timer{font-size:13px;color:#d7c9f4;margin-top:10px}
+@media(max-height:760px){
+header{padding:6px 6px 10px}
+h1{font-size:clamp(23px,6vw,30px)}
+.card{padding:12px;margin:9px 0}
+.pet{padding:12px 10px}
+.cat{font-size:72px}
+.stats{gap:9px;margin-top:11px}
+.bar{height:9px}
+button{padding:10px 8px;min-height:48px;font-size:15px}
+.mine-button{min-height:56px}
+}
+@media(max-width:360px){
+.card{padding:11px}
+.actions{gap:7px}
+button{font-size:14px;padding:10px 6px}
+}
+</style>
 </head>
 <body>
 <main class="app">
-  <header>
-    <h1>🐾 CryptoCat — Гучи</h1>
-    <div class="sub">Заботься о котике и собирай виртуальные монеты</div>
-  </header>
+<header>
+<h1>🐾 CryptoCat — Гучи</h1>
+<div class="sub">Заботься о котике и собирай виртуальные монеты</div>
+</header>
 
-  <section class="card wallet">
-    <div>
-      <div style="font-size:13px;color:#d7c9f4">ТВОЙ БАЛАНС</div>
-      <div class="coins">🪙 <span id="coins">...</span></div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-size:13px;color:#d7c9f4">ОПЫТ</div>
-      <strong><span id="xp">...</span> XP</strong>
-    </div>
-  </section>
+<section class="card wallet">
+<div>
+<div style="font-size:13px;color:#d7c9f4">ТВОЙ БАЛАНС</div>
+<div class="coins">🪙 <span id="coins">...</span></div>
+</div>
+<div style="text-align:right">
+<div style="font-size:13px;color:#d7c9f4">ОПЫТ</div>
+<strong><span id="xp">...</span> XP</strong>
+</div>
+</section>
 
-  <section class="card pet">
-    <div class="cat" id="cat">🐱</div>
-    <h2>Гучи</h2>
-    <div class="level">Уровень <span id="level">1</span> · лучший друг 🧡</div>
-    <div class="stats">
-      <div>
-        <div class="statline"><span>🍗 Сытость</span><b id="hungerText">70%</b></div>
-        <div class="bar"><div class="fill" id="hungerBar"></div></div>
-      </div>
-      <div>
-        <div class="statline"><span>⚡ Энергия</span><b id="energyText">70%</b></div>
-        <div class="bar"><div class="fill" id="energyBar"></div></div>
-      </div>
-      <div>
-        <div class="statline"><span>💖 Счастье</span><b id="happyText">70%</b></div>
-        <div class="bar"><div class="fill" id="happyBar"></div></div>
-      </div>
-    </div>
-    <div class="message" id="message" aria-live="polite">Загружаем Гучи...</div>
-  </section>
+<section class="card mining">
+<div class="mine-title">⛏️ МАЙНИНГ ГУЧИ</div>
+<div class="mine-rate">Автоматически: +1 монета каждые 10 минут</div>
+<div class="mine-amount">🪙 <span id="passiveEarned">0</span></div>
+<div class="mine-timer" id="passiveTimer">Загрузка майнинга...</div>
+<button class="mine-button" id="mine" disabled>⚡ МАЙНИТЬ · +1</button>
+<div class="mine-timer" id="activeTimer">Активный майнинг: загрузка...</div>
+</section>
 
-  <section class="card">
-    <div class="actions">
-      <button class="primary" id="feed" disabled>🍗 Покормить · 10</button>
-      <button class="secondary" id="play" disabled>🎾 Играть · +5</button>
-      <button id="sleep" disabled>😴 Спать</button>
-      <button id="bonus" class="daily" disabled>🎁 Ежедневный бонус · +25</button>
-    </div>
-  </section>
+<section class="card pet">
+<div class="cat" id="cat">🐱</div>
+<h2>Гучи</h2>
+<div class="level">Уровень <span id="level">1</span> · лучший друг 🧡</div>
+<div class="stats">
+<div>
+<div class="statline"><span>🍗 Сытость</span><b id="hungerText">70%</b></div>
+<div class="bar"><div class="fill" id="hungerBar"></div></div>
+</div>
+<div>
+<div class="statline"><span>⚡ Энергия</span><b id="energyText">70%</b></div>
+<div class="bar"><div class="fill" id="energyBar"></div></div>
+</div>
+<div>
+<div class="statline"><span>💖 Счастье</span><b id="happyText">70%</b></div>
+<div class="bar"><div class="fill" id="happyBar"></div></div>
+</div>
+</div>
+<div class="message" id="message" aria-live="polite">Загружаем Гучи...</div>
+</section>
 
-  <p class="note">Монеты в игре — виртуальные игровые очки. Это не криптовалюта, они не имеют денежной стоимости и не выводятся.</p>
-  <div class="footer">CryptoCat — Гучи · Прогресс хранится на сервере</div>
+<section class="card">
+<div class="actions">
+<button class="primary" id="feed" disabled>🍗 Покормить · 10</button>
+<button class="secondary" id="play" disabled>🎾 Играть · +5</button>
+<button id="sleep" disabled>😴 Спать</button>
+<button id="bonus" class="daily" disabled>🎁 Ежедневный бонус · +25</button>
+</div>
+</section>
+
+<p class="note">Монеты — виртуальные игровые очки. Это не криптовалюта, они не имеют денежной стоимости и не выводятся.</p>
+<div class="footer">CryptoCat — Гучи · Прогресс хранится на сервере</div>
 </main>
 
 <script>
 (() => {
-  const API = "https://cryptocat-api.zmvsv97hfm.workers.dev";
-  const tg = window.Telegram?.WebApp;
+"use strict";
 
-  if (tg) {
-    tg.ready();
-    tg.expand();
+const API = "https://cryptocat-api.zmvsv97hfm.workers.dev";
+const tg = window.Telegram?.WebApp;
 
-    if (typeof tg.requestFullscreen === "function") {
-      const fullscreen = () => {
-        try {
-          const result = tg.requestFullscreen();
-          if (result?.catch) result.catch(() => {});
-        } catch (_) {}
-      };
-      fullscreen();
-      document.addEventListener("pointerdown", fullscreen, { once:true });
+if (tg) {
+  tg.ready();
+  tg.expand();
+
+  if (typeof tg.requestFullscreen === "function") {
+    const fullscreen = () => {
+      try {
+        const result = tg.requestFullscreen();
+        if (result?.catch) result.catch(() => {});
+      } catch (_) {}
+    };
+    fullscreen();
+    document.addEventListener("pointerdown", fullscreen, {once:true});
+  }
+}
+
+const $ = id => document.getElementById(id);
+
+let player = null;
+let busy = false;
+let lastServerSync = 0;
+let syncBusy = false;
+
+const ACTIVE_COOLDOWN = 30000;
+const PASSIVE_INTERVAL = 600000;
+const MAX_PASSIVE_TIME = 86400000;
+
+function say(message) {
+  $("message").textContent = message;
+}
+
+function todayUTC() {
+  return new Date().toISOString().slice(0,10);
+}
+
+async function api(path, data = {}) {
+  const initData = tg?.initData;
+
+  if (!initData) {
+    throw new Error("Открой игру через Telegram-бота.");
+  }
+
+  const response = await fetch(API + path, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({initData,...data})
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || !result.ok) {
+    const error = new Error(result.error || "Ошибка сервера");
+    error.status = response.status;
+    error.retryAfter = result.retry_after;
+    throw error;
+  }
+
+  return result;
+}
+
+function render(p) {
+  player = p;
+
+  $("coins").textContent = p.coins;
+  $("xp").textContent = p.xp;
+  $("level").textContent = p.level;
+
+  const stats = [
+    ["hunger",p.hunger],
+    ["energy",p.energy],
+    ["happy",p.happiness]
+  ];
+
+  stats.forEach(([name,value]) => {
+    $(name+"Text").textContent = value+"%";
+    $(name+"Bar").style.width = value+"%";
+  });
+
+  $("cat").textContent =
+    p.hunger < 20 ? "🙀" :
+    p.happiness < 25 ? "😿" :
+    p.energy < 20 ? "😴" : "🐱";
+
+  $("feed").disabled = busy || p.coins < 10 || p.hunger >= 100;
+  $("play").disabled = busy || p.energy < 15;
+  $("sleep").disabled = busy;
+
+  const bonusTaken = p.last_daily_bonus === todayUTC();
+  $("bonus").disabled = busy || bonusTaken;
+  $("bonus").textContent = bonusTaken
+    ? "✅ Бонус уже получен"
+    : "🎁 Ежедневный бонус · +25";
+
+  $("mine").disabled = busy;
+}
+
+function updateMiningDisplay() {
+  if (!player) return;
+
+  const now = Date.now();
+  const lastPassive = player.mining_last_at
+    ? Date.parse(player.mining_last_at)
+    : now;
+
+  if (Number.isFinite(lastPassive)) {
+    const elapsed = Math.max(0,Math.min(now-lastPassive,MAX_PASSIVE_TIME));
+    const earned = Math.floor(elapsed/PASSIVE_INTERVAL);
+    const remaining = PASSIVE_INTERVAL-(elapsed%PASSIVE_INTERVAL);
+
+    $("passiveEarned").textContent = earned;
+
+    const minutes = Math.floor(remaining/60000);
+    const seconds = Math.floor((remaining%60000)/1000);
+
+    $("passiveTimer").textContent =
+      "Следующая автоматическая монета через "+minutes+" мин "+seconds+" сек";
+  }
+
+  const lastActive = player.active_last_at
+    ? Date.parse(player.active_last_at)
+    : 0;
+
+  const remainingActive = Math.max(0,ACTIVE_COOLDOWN-(now-lastActive));
+
+  if (remainingActive > 0) {
+    $("mine").disabled = busy;
+    $("activeTimer").textContent =
+      "Следующий активный майнинг через "+Math.ceil(remainingActive/1000)+" сек";
+  } else {
+    $("mine").disabled = busy;
+    $("activeTimer").textContent = "Можно майнить сейчас! ⚡";
+  }
+}
+
+async function loadPlayer(showMessage = true) {
+  if (syncBusy) return;
+  syncBusy = true;
+
+  try {
+    if (showMessage) say("Загружаем профиль...");
+    const result = await api("/api/player");
+    render(result.player);
+    lastServerSync = Date.now();
+
+    if (showMessage) {
+      say(result.mining_earned > 0
+        ? "Автоматический майнинг: +"+result.mining_earned+" монет! ⛏️"
+        : "Гучи рад тебя видеть! 🧡");
     }
+  } catch (error) {
+    if (showMessage) say(error.message);
+  } finally {
+    syncBusy = false;
   }
+}
 
-  const $ = id => document.getElementById(id);
-  let player = null;
-  let busy = false;
+async function action(name) {
+  if (busy || !player) return;
 
-  function say(message) {
-    $("message").textContent = message;
-  }
+  busy = true;
+  render(player);
+  say("Обрабатываем действие...");
 
-  function render(p) {
-    player = p;
-
-    $("coins").textContent = p.coins;
-    $("xp").textContent = p.xp;
-    $("level").textContent = p.level;
-
-    const stats = [
-      ["hunger", p.hunger],
-      ["energy", p.energy],
-      ["happy", p.happiness]
-    ];
-
-    stats.forEach(([name, value]) => {
-      $(name + "Text").textContent = value + "%";
-      $(name + "Bar").style.width = value + "%";
-    });
-
-    $("cat").textContent =
-      p.hunger < 20 ? "🙀" :
-      p.happiness < 25 ? "😿" :
-      p.energy < 20 ? "😴" : "🐱";
-
-    $("feed").disabled = busy || p.coins < 10 || p.hunger >= 100;
-    $("play").disabled = busy || p.energy < 15;
-    $("sleep").disabled = busy;
-
-    const today = new Date().toISOString().slice(0, 10);
-    const bonusTaken = p.last_daily_bonus === today;
-
-    $("bonus").disabled = busy || bonusTaken;
-    $("bonus").textContent = bonusTaken
-      ? "✅ Бонус уже получен"
-      : "🎁 Ежедневный бонус · +25";
-  }
-
-  async function api(path, data = {}) {
-    const initData = tg?.initData;
-
-    if (!initData) {
-      throw new Error("Открой игру через Telegram-бота, а не через браузер.");
-    }
-
-    const response = await fetch(API + path, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        initData,
-        ...data
-      })
-    });
-
-    const result = await response.json();
-
-    if (!response.ok || !result.ok) {
-      throw new Error(result.error || "Ошибка сервера");
-    }
-
-    return result;
-  }
-
-  async function loadPlayer() {
-    try {
-      say("Загружаем профиль...");
-      const result = await api("/api/player");
-      render(result.player);
-      say("Гучи рад тебя видеть! 🧡");
-    } catch (error) {
+  try {
+    const result = await api("/api/action",{action:name});
+    render(result.player);
+    lastServerSync = Date.now();
+    say(result.message || "Готово!");
+  } catch (error) {
+    if (error.status === 429 && name === "mine") {
+      say("Подожди немного перед следующим майнингом ⚡");
+    } else {
       say(error.message);
     }
-  }
-
-  async function action(name) {
-    if (busy) return;
-
-    busy = true;
+  } finally {
+    busy = false;
     if (player) render(player);
-    say("Сохраняем действие...");
-
-    try {
-      const result = await api("/api/action", { action:name });
-      render(result.player);
-      say(result.message);
-    } catch (error) {
-      say(error.message);
-      if (player) render(player);
-    } finally {
-      busy = false;
-      if (player) render(player);
-    }
+    updateMiningDisplay();
   }
+}
 
-  $("feed").addEventListener("click", () => action("feed"));
-  $("play").addEventListener("click", () => action("play"));
-  $("sleep").addEventListener("click", () => action("sleep"));
-  $("bonus").addEventListener("click", () => action("bonus"));
+$("mine").addEventListener("click",() => action("mine"));
+$("feed").addEventListener("click",() => action("feed"));
+$("play").addEventListener("click",() => action("play"));
+$("sleep").addEventListener("click",() => action("sleep"));
+$("bonus").addEventListener("click",() => action("bonus"));
 
-  loadPlayer();
+if ("scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
+window.addEventListener("pageshow",() => window.scrollTo(0,0),{once:true});
+
+loadPlayer();
+
+setInterval(() => {
+  updateMiningDisplay();
+
+  // Синхронизируемся с сервером раз в минуту,
+  // чтобы начислять автоматические монеты.
+  if (player && !busy && Date.now()-lastServerSync >= 60000) {
+    loadPlayer(false);
+  }
+},1000);
+
 })();
 </script>
 </body>
