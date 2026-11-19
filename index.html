@@ -227,7 +227,7 @@ function render(p) {
     ? "✅ Бонус уже получен"
     : "🎁 Ежедневный бонус · +25";
 
-  $("mine").disabled = busy;
+  updateMiningDisplay();
 }
 
 function updateMiningDisplay() {
@@ -259,11 +259,11 @@ function updateMiningDisplay() {
   const remainingActive = Math.max(0,ACTIVE_COOLDOWN-(now-lastActive));
 
   if (remainingActive > 0) {
-    $("mine").disabled = busy;
+    $("mine").disabled = busy || remainingActive > 0;
     $("activeTimer").textContent =
       "Следующий активный майнинг через "+Math.ceil(remainingActive/1000)+" сек";
   } else {
-    $("mine").disabled = busy;
+    $("mine").disabled = busy || remainingActive > 0;
     $("activeTimer").textContent = "Можно майнить сейчас! ⚡";
   }
 }
