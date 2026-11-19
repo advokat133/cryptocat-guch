@@ -132,7 +132,7 @@ button:active{transform:scale(.98)}button:disabled{opacity:.42;cursor:not-allowe
 </section>
 
 <p class="note">Монеты — виртуальные игровые очки. Это не криптовалюта, они не имеют денежной стоимости и не выводятся.</p>
-<div class="footer">CryptoCat — Гучи · Прогресс хранится на сервере</div>
+<div class="footer">CryptoCat — Гучи · Прогресс хранится на сервере · Версия 19.11.2026 · Рост Гучи</div>
 </main>
 <script>
 (() => {
@@ -168,11 +168,12 @@ function render(p){
   const level=Math.max(1,Number(p.level)||1);
   scene.classList.remove("stage-growing","stage-adult","stage-legend");
   let growth="🐾 Малыш Гучи";
-  if(level>=10){scene.classList.add("stage-legend");growth="👑 Легендарный Гучи";}
-  else if(level>=5){scene.classList.add("stage-adult");growth="✨ Взрослый Гучи";}
-  else if(level>=3){scene.classList.add("stage-growing");growth="🌟 Гучи подрастает";}
+  let catEmoji="🐱";
+  if(level>=10){scene.classList.add("stage-legend");growth="👑 Легендарный Гучи";catEmoji="🐈‍⬛";}
+  else if(level>=5){scene.classList.add("stage-adult");growth="✨ Взрослый Гучи";catEmoji="🐈";}
+  else if(level>=3){scene.classList.add("stage-growing");growth="🌟 Гучи подрастает";catEmoji="😺";}
   $("growthLabel").textContent=growth;
-  $("cat").textContent=p.hunger<20?"🙀":p.happiness<25?"😿":p.energy<20?"😴":"🐱";
+  $("cat").textContent=p.hunger<20?"🙀":p.happiness<25?"😿":p.energy<20?"😴":catEmoji;
   $("feed").disabled=busy||p.coins<10||p.hunger>=100;
   $("play").disabled=busy||p.energy<15; $("sleep").disabled=busy;
   const bonusTaken=p.last_daily_bonus===todayUTC();
