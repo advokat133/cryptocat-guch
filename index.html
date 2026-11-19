@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -8,60 +9,56 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * { box-sizing: border-box; }
-    html { min-height: 100%; background: #17102e; scroll-behavior: auto; }
+    html { min-height: 100%; background: #17102e; }
     body {
-      margin: 0; min-height: 100vh; min-height: 100dvh;
-      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
-               max(12px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      color: #fff; background: linear-gradient(160deg,#32165e,#17102e 65%,#0d0b1b);
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+      color: #fff;
+      background: linear-gradient(160deg,#32165e,#17102e 65%,#0d0b1b);
       overscroll-behavior-y: contain;
     }
-    .app { width: 100%; max-width: 560px; min-height: calc(100vh - 20px); min-height: calc(100dvh - 20px); margin: 0 auto; padding: 0; }
-    header { text-align: center; padding: 12px 8px 16px; }
-    h1 { margin: 0; font-size: clamp(25px,7vw,36px); letter-spacing: .2px; }
-    .sub { color: #d7c9f4; margin-top: 5px; font-size: 14px; }
-    .card { background: #ffffff12; border: 1px solid #ffffff25; border-radius: 22px; padding: 16px; margin: 12px 0; box-shadow: 0 12px 35px #0002; }
-    .wallet { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .coins { font-size: 24px; font-weight: 800; color: #ffe27a; }
-    .pet { text-align: center; padding: 18px 12px; }
-    .cat { font-size: clamp(76px,20vw,100px); line-height: 1.15; filter: drop-shadow(0 8px 10px #0005); }
-    .pet h2 { margin: 8px 0 3px; font-size: 25px; }
-    .level { color: #ddc9ff; font-size: 14px; }
-    .stats { display: grid; gap: 13px; margin-top: 17px; text-align: left; }
-    .statline { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; color: #eee5ff; }
-    .bar { height: 11px; background: #ffffff20; border-radius: 20px; overflow: hidden; }
-    .fill { height: 100%; width: 70%; border-radius: 20px; background: linear-gradient(90deg,#71e2c1,#b8ff8a); transition: width .25s; }
-    .actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
-    button { border: 0; border-radius: 15px; padding: 14px 10px; font-size: 16px; font-weight: 750; color: #24143c; background: #f1e8ff; cursor: pointer; min-height: 58px; touch-action: manipulation; }
-    button:active { transform: scale(.98); }
-    button.primary { background: linear-gradient(135deg,#ffe58a,#ffb85c); }
-    button.secondary { background: #d7c2ff; }
-    button:disabled { opacity: .45; cursor: not-allowed; }
-    .message { min-height: 24px; text-align: center; color: #ffe7a5; font-weight: 650; margin: 12px 0 0; }
-    .note { font-size: 12px; line-height: 1.45; color: #c9bddf; text-align: center; margin: 18px 8px 0; }
-    .daily { width: 100%; margin-top: 10px; background: linear-gradient(135deg,#9a72ff,#6f50d7); color: white; }
-    .footer { text-align: center; color: #a99abd; font-size: 12px; margin: 18px 0 8px; }
-    @media (max-height: 760px) {
-      header { padding: 6px 6px 10px; }
-      h1 { font-size: clamp(23px,6vw,30px); }
-      .sub { font-size: 13px; margin-top: 3px; }
-      .card { padding: 12px; margin: 9px 0; }
-      .pet { padding: 12px 10px; }
-      .cat { font-size: 72px; line-height: 1.08; }
-      .pet h2 { font-size: 22px; margin-top: 5px; }
-      .level { font-size: 12px; }
-      .stats { gap: 9px; margin-top: 11px; }
-      .bar { height: 9px; }
-      .actions { gap: 8px; }
-      button { padding: 10px 8px; min-height: 50px; font-size: 15px; }
-      .daily { margin-top: 6px; }
-      .note, .footer { margin-top: 12px; }
+    .app { width:100%;max-width:560px;min-height:calc(100dvh - 20px);margin:0 auto; }
+    header { text-align:center;padding:12px 8px 16px; }
+    h1 { margin:0;font-size:clamp(25px,7vw,36px); }
+    .sub { color:#d7c9f4;margin-top:5px;font-size:14px; }
+    .card { background:#ffffff12;border:1px solid #ffffff25;border-radius:22px;padding:16px;margin:12px 0;box-shadow:0 12px 35px #0002; }
+    .wallet { display:flex;justify-content:space-between;align-items:center;gap:12px; }
+    .coins { font-size:24px;font-weight:800;color:#ffe27a; }
+    .pet { text-align:center;padding:18px 12px; }
+    .cat { font-size:clamp(76px,20vw,100px);line-height:1.15; }
+    .pet h2 { margin:8px 0 3px;font-size:25px; }
+    .level { color:#ddc9ff;font-size:14px; }
+    .stats { display:grid;gap:13px;margin-top:17px;text-align:left; }
+    .statline { display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;color:#eee5ff; }
+    .bar { height:11px;background:#ffffff20;border-radius:20px;overflow:hidden; }
+    .fill { height:100%;width:70%;border-radius:20px;background:linear-gradient(90deg,#71e2c1,#b8ff8a);transition:width .25s; }
+    .actions { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px; }
+    button { border:0;border-radius:15px;padding:14px 10px;font-size:16px;font-weight:750;color:#24143c;background:#f1e8ff;cursor:pointer;min-height:58px;touch-action:manipulation; }
+    button:active { transform:scale(.98); }
+    button.primary { background:linear-gradient(135deg,#ffe58a,#ffb85c); }
+    button.secondary { background:#d7c2ff; }
+    button:disabled { opacity:.45;cursor:not-allowed; }
+    .message { min-height:24px;text-align:center;color:#ffe7a5;font-weight:650;margin:12px 0 0; }
+    .note { font-size:12px;line-height:1.45;color:#c9bddf;text-align:center;margin:18px 8px 0; }
+    .daily { width:100%;margin-top:10px;background:linear-gradient(135deg,#9a72ff,#6f50d7);color:white; }
+    .footer { text-align:center;color:#a99abd;font-size:12px;margin:18px 0 8px; }
+    @media(max-height:760px) {
+      header { padding:6px 6px 10px; }
+      h1 { font-size:clamp(23px,6vw,30px); }
+      .card { padding:12px;margin:9px 0; }
+      .pet { padding:12px 10px; }
+      .cat { font-size:72px; }
+      .stats { gap:9px;margin-top:11px; }
+      .bar { height:9px; }
+      button { padding:10px 8px;min-height:50px;font-size:15px; }
     }
-    @media (max-width: 360px) {
-      .card { padding: 11px; }
-      .actions { gap: 7px; }
-      button { font-size: 14px; padding: 10px 6px; }
+    @media(max-width:360px) {
+      .card { padding:11px; }
+      .actions { gap:7px; }
+      button { font-size:14px;padding:10px 6px; }
     }
   </style>
 </head>
@@ -73,8 +70,14 @@
   </header>
 
   <section class="card wallet">
-    <div><div style="font-size:13px;color:#d7c9f4">ТВОЙ БАЛАНС</div><div class="coins">🪙 <span id="coins">100</span></div></div>
-    <div style="text-align:right"><div style="font-size:13px;color:#d7c9f4">ОПЫТ</div><strong><span id="xp">0</span> XP</strong></div>
+    <div>
+      <div style="font-size:13px;color:#d7c9f4">ТВОЙ БАЛАНС</div>
+      <div class="coins">🪙 <span id="coins">...</span></div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:13px;color:#d7c9f4">ОПЫТ</div>
+      <strong><span id="xp">...</span> XP</strong>
+    </div>
   </section>
 
   <section class="card pet">
@@ -82,94 +85,162 @@
     <h2>Гучи</h2>
     <div class="level">Уровень <span id="level">1</span> · лучший друг 🧡</div>
     <div class="stats">
-      <div><div class="statline"><span>🍗 Сытость</span><b id="hungerText">70%</b></div><div class="bar"><div class="fill" id="hungerBar"></div></div></div>
-      <div><div class="statline"><span>⚡ Энергия</span><b id="energyText">70%</b></div><div class="bar"><div class="fill" id="energyBar"></div></div></div>
-      <div><div class="statline"><span>💖 Счастье</span><b id="happyText">70%</b></div><div class="bar"><div class="fill" id="happyBar"></div></div></div>
+      <div>
+        <div class="statline"><span>🍗 Сытость</span><b id="hungerText">70%</b></div>
+        <div class="bar"><div class="fill" id="hungerBar"></div></div>
+      </div>
+      <div>
+        <div class="statline"><span>⚡ Энергия</span><b id="energyText">70%</b></div>
+        <div class="bar"><div class="fill" id="energyBar"></div></div>
+      </div>
+      <div>
+        <div class="statline"><span>💖 Счастье</span><b id="happyText">70%</b></div>
+        <div class="bar"><div class="fill" id="happyBar"></div></div>
+      </div>
     </div>
-    <div class="message" id="message" aria-live="polite">Гучи рад тебя видеть!</div>
+    <div class="message" id="message" aria-live="polite">Загружаем Гучи...</div>
   </section>
 
   <section class="card">
     <div class="actions">
-      <button class="primary" id="feed">🍗 Покормить · 10</button>
-      <button class="secondary" id="play">🎾 Играть · +5</button>
-      <button id="sleep">😴 Спать</button>
-      <button id="bonus" class="daily">🎁 Ежедневный бонус · +25</button>
+      <button class="primary" id="feed" disabled>🍗 Покормить · 10</button>
+      <button class="secondary" id="play" disabled>🎾 Играть · +5</button>
+      <button id="sleep" disabled>😴 Спать</button>
+      <button id="bonus" class="daily" disabled>🎁 Ежедневный бонус · +25</button>
     </div>
   </section>
 
   <p class="note">Монеты в игре — виртуальные игровые очки. Это не криптовалюта, они не имеют денежной стоимости и не выводятся.</p>
-  <div class="footer">CryptoCat — Гучи · Прогресс сохраняется на этом устройстве</div>
+  <div class="footer">CryptoCat — Гучи · Прогресс хранится на сервере</div>
 </main>
+
 <script>
 (() => {
-const tg = window.Telegram?.WebApp;
+  const API = "https://cryptocat-api.zmvsv97hfm.workers.dev";
+  const tg = window.Telegram?.WebApp;
 
-// Expand the Mini App and request fullscreen where the Telegram client supports it.
-// Some clients require a real user gesture, so retry once on the first tap.
-function requestAppFullscreen() {
-  if (!tg || typeof tg.requestFullscreen !== "function") return;
-  try {
-    const result = tg.requestFullscreen();
-    if (result && typeof result.catch === "function") result.catch(() => {});
-  } catch (_) {}
-}
-if (tg) {
-  tg.ready();
-  tg.expand();
-  requestAppFullscreen();
-  document.addEventListener("pointerdown", requestAppFullscreen, { once: true });
-}
-if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-window.addEventListener("pageshow", () => window.scrollTo(0, 0), { once: true });
-  const KEY = "cryptocat-guchi-v1";
-  const defaults = {coins:100,xp:0,hunger:70,energy:70,happy:70,lastBonus:""};
-  let state = {...defaults};
-  try {
-    const saved = JSON.parse(localStorage.getItem(KEY) || "null");
-    if (saved && typeof saved === "object") state = {...defaults,...saved};
-  } catch (_) {}
-  const $ = id => document.getElementById(id);
-  const clamp = n => Math.max(0,Math.min(100,n));
-  const today = () => new Date().toLocaleDateString("en-CA");
-  function save(){ localStorage.setItem(KEY,JSON.stringify(state)); }
-  function say(text){ $("message").textContent=text; }
-  function render(){
-    $("coins").textContent=state.coins;
-    $("xp").textContent=state.xp;
-    $("level").textContent=Math.floor(state.xp/100)+1;
-    [["hunger",state.hunger],["energy",state.energy],["happy",state.happy]].forEach(([name,value])=>{
-      $(name+"Text").textContent=value+"%";
-      $(name+"Bar").style.width=value+"%";
-    });
-    $("cat").textContent=state.hunger<20?"🙀":state.happy<25?"😿":state.energy<20?"😴":"🐱";
-    $("feed").disabled=state.coins<10 || state.hunger>=100;
-    $("play").disabled=state.energy<15;
-    $("bonus").disabled=state.lastBonus===today();
-    $("bonus").textContent=state.lastBonus===today()?"✅ Бонус уже получен":"🎁 Ежедневный бонус · +25";
-    save();
+  if (tg) {
+    tg.ready();
+    tg.expand();
+
+    if (typeof tg.requestFullscreen === "function") {
+      const fullscreen = () => {
+        try {
+          const result = tg.requestFullscreen();
+          if (result?.catch) result.catch(() => {});
+        } catch (_) {}
+      };
+      fullscreen();
+      document.addEventListener("pointerdown", fullscreen, { once:true });
+    }
   }
-  $("feed").addEventListener("click",()=>{
-    if(state.coins<10){say("Не хватает монет. Поиграй с Гучи!");return;}
-    if(state.hunger>=100){say("Гучи уже сыт!");return;}
-    state.coins-=10;state.hunger=clamp(state.hunger+25);state.happy=clamp(state.happy+5);state.xp+=5;
-    say("Ням-ням! Гучи благодарит тебя 🧡");render();
-  });
-  $("play").addEventListener("click",()=>{
-    if(state.energy<15){say("Гучи устал. Дай ему поспать.");return;}
-    state.energy=clamp(state.energy-15);state.happy=clamp(state.happy+15);state.hunger=clamp(state.hunger-5);state.coins+=5;state.xp+=10;
-    say("Отличная игра! Ты получил 5 монет 🎉");render();
-  });
-  $("sleep").addEventListener("click",()=>{
-    state.energy=clamp(state.energy+35);state.hunger=clamp(state.hunger-5);
-    say("Гучи сладко поспал и восстановил силы 😴");render();
-  });
-  $("bonus").addEventListener("click",()=>{
-    if(state.lastBonus===today()){say("Ты уже забрал сегодняшний бонус.");return;}
-    state.coins+=25;state.lastBonus=today();state.xp+=5;
-    say("Ежедневный бонус получен: +25 монет! 🎁");render();
-  });
-  render();
+
+  const $ = id => document.getElementById(id);
+  let player = null;
+  let busy = false;
+
+  function say(message) {
+    $("message").textContent = message;
+  }
+
+  function render(p) {
+    player = p;
+
+    $("coins").textContent = p.coins;
+    $("xp").textContent = p.xp;
+    $("level").textContent = p.level;
+
+    const stats = [
+      ["hunger", p.hunger],
+      ["energy", p.energy],
+      ["happy", p.happiness]
+    ];
+
+    stats.forEach(([name, value]) => {
+      $(name + "Text").textContent = value + "%";
+      $(name + "Bar").style.width = value + "%";
+    });
+
+    $("cat").textContent =
+      p.hunger < 20 ? "🙀" :
+      p.happiness < 25 ? "😿" :
+      p.energy < 20 ? "😴" : "🐱";
+
+    $("feed").disabled = busy || p.coins < 10 || p.hunger >= 100;
+    $("play").disabled = busy || p.energy < 15;
+    $("sleep").disabled = busy;
+
+    const today = new Date().toISOString().slice(0, 10);
+    const bonusTaken = p.last_daily_bonus === today;
+
+    $("bonus").disabled = busy || bonusTaken;
+    $("bonus").textContent = bonusTaken
+      ? "✅ Бонус уже получен"
+      : "🎁 Ежедневный бонус · +25";
+  }
+
+  async function api(path, data = {}) {
+    const initData = tg?.initData;
+
+    if (!initData) {
+      throw new Error("Открой игру через Telegram-бота, а не через браузер.");
+    }
+
+    const response = await fetch(API + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        initData,
+        ...data
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.ok) {
+      throw new Error(result.error || "Ошибка сервера");
+    }
+
+    return result;
+  }
+
+  async function loadPlayer() {
+    try {
+      say("Загружаем профиль...");
+      const result = await api("/api/player");
+      render(result.player);
+      say("Гучи рад тебя видеть! 🧡");
+    } catch (error) {
+      say(error.message);
+    }
+  }
+
+  async function action(name) {
+    if (busy) return;
+
+    busy = true;
+    if (player) render(player);
+    say("Сохраняем действие...");
+
+    try {
+      const result = await api("/api/action", { action:name });
+      render(result.player);
+      say(result.message);
+    } catch (error) {
+      say(error.message);
+      if (player) render(player);
+    } finally {
+      busy = false;
+      if (player) render(player);
+    }
+  }
+
+  $("feed").addEventListener("click", () => action("feed"));
+  $("play").addEventListener("click", () => action("play"));
+  $("sleep").addEventListener("click", () => action("sleep"));
+  $("bonus").addEventListener("click", () => action("bonus"));
+
+  loadPlayer();
 })();
 </script>
 </body>
