@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="theme-color" content="#211344">
   <title>CryptoCat — Гучи</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
   @media (max-height: 850px) {
   header { padding: 8px 6px 10px; }
@@ -89,6 +90,11 @@
 </main>
 <script>
 (() => {
+    const tg = window.Telegram?.WebApp;
+  if (tg) {
+    tg.ready();
+    tg.expand();
+  }
   const KEY = "cryptocat-guchi-v1";
   const defaults = {coins:100,xp:0,hunger:70,energy:70,happy:70,lastBonus:""};
   let state = {...defaults};
