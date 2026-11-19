@@ -90,11 +90,14 @@
 </main>
 <script>
 (() => {
-    const tg = window.Telegram?.WebApp;
-  if (tg) {
-    tg.ready();
-    tg.expand();
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+  if (typeof tg.requestFullscreen === "function") {
+    tg.requestFullscreen();
   }
+}
   const KEY = "cryptocat-guchi-v1";
   const defaults = {coins:100,xp:0,hunger:70,energy:70,happy:70,lastBonus:""};
   let state = {...defaults};
